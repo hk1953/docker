@@ -100,12 +100,12 @@
     - name: get the ansible.cfg file
       get_url: >
         url={{ ansible_cfg_url }} 
-	dest=/home/ mode=0644 
-	checksum=sha256:cc53d9e897e0f226c53aaa3b33a34c94e3fc812a7152c463188a43aad17d2955
+        dest=/home/ mode=0644 
+        checksum=sha256:cc53d9e897e0f226c53aaa3b33a34c94e3fc812a7152c463188a43aad17d2955
 
     # Get the inventory file.
     - name: get the inventory file
       get_url: >
         url={{ inventory_url }} 
-	dest=/home/ mode=0644 
-	checksum=sha256:4315236a3f6e432244effda39115fc51b26aacfba995fbc3e4eeb3da54e6840b
+        dest=/home/ mode=0644 
+        checksum=sha256:4315236a3f6e432244effda39115fc51b26aacfba995fbc3e4eeb3da54e6840b
