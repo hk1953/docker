@@ -3,8 +3,7 @@
 
 - hosts: localhost
 
-vars:
-    username: ucsl17_user
+  set_fact:
     # Install some ubuntu packages.
     ubuntu_packages:
       - bash
@@ -49,7 +48,7 @@ vars:
     ansible_cfg_url: "https://raw.githubusercontent.com/hk1953/ucsl-image/master/image/ansible.cfg"
     inventory_url: "https://raw.githubusercontent.com/hk1953/ucsl-image/master/image/inventory"
 
-tasks:
+  tasks:
     # Create a 2048-bit SSH key for root
     - user
       name: root
