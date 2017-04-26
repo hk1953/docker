@@ -73,7 +73,7 @@
         - virtualenv
 
     - name: Create the virtualenv
-      command: virtualenv {{ virtualenv_path }} --no-site-packages creates={{ virtualenv_path }}/bin/activate
+      command: virtualenv /home --no-site-packages creates=/home/bin/activate
 
     # install Jupyter.
     - name: upgrade the six
