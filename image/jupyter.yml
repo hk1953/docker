@@ -66,15 +66,14 @@
     - name: create ssh key for root
       user: name=root generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file=.ssh/id_rsa
 
-    - name: Install requirements
-      pip: 
-        requirements: ./requirements.txt
-        virtualenv: /home/venvs/myenv
-        virtualenv_python: python3.4
-        virtualenv_site_packages: yes
 
-    - name: virtualenv activate
-      shell: source /home/venvs/myenv/bin/activate
+    - name: Install virtualenv
+      pip: name={{ item }}
+      with_items:
+        - virtualenv
+
+    - name: Create the virtualenv
+      command: virtualenv {{ virtualenv_path }} --no-site-packages creates={{ virtualenv_path }}/bin/activate
 
     # install Jupyter.
     - name: upgrade the six
