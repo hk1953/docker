@@ -2,8 +2,7 @@
 ---
 
 - hosts: localhost
-
-  set_fact:
+  vars:
     # Install some ubuntu packages.
     ubuntu_packages:
       - bash
