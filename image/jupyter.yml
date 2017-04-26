@@ -57,7 +57,7 @@
     # Python package dependencies
     - name: install apt packages
       apt: name={{ item }} state=present
-      with_items: "{{ apt_packages }}"
+      with_items: "{{ apt_python_packages }}"
       when:
         - apt_python_packages is defined
         - ansible_pkg_mgr == "apt"
