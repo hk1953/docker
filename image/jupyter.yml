@@ -17,8 +17,6 @@
 
     # Some python package dependencies.
     apt_python_packages:
-      - python-dev
-      - python-pip
       - python3-pip
       - libpng-dev
       - libjpeg8-dev
@@ -43,14 +41,20 @@
       - pillow
       - pandas
 
-    jupyter_notebook_config_py_url: "https://raw.githubusercontent.com/hk1953/ucsl-image/master/image/jupyter_config.py"
-    ansible_cfg_url: "https://raw.githubusercontent.com/hk1953/ucsl-image/master/image/ansible.cfg"
-    inventory_url: "https://raw.githubusercontent.com/hk1953/ucsl-image/master/image/inventory"
+    jupyter_notebook_config_py_url: "./jupyter_config.py"
+    ansible_cfg_url: "./ansible.cfg"
+    inventory_url: "./inventory"
 
   tasks:
     # Create a 2048-bit SSH key for root
     - name: create ssh key for root
       user: name=root generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file=.ssh/id_rsa
+
+    - name: Install requirements
+      pip: 
+        requirements: ./requirements.txt
+        virtualenv: /home/venvs/myenv
+        virtualenv_python: python3.4
 
     # General Ubuntu package installation.
     - name: install same packages
@@ -67,17 +71,6 @@
       when:
         - apt_python_packages is defined
         - ansible_pkg_mgr == "apt"
-
-    # General Python packages.
-    - name: install some pip packages
-      pip: name={{ item }} state=present
-      with_items: "{{ pip_packages }}"
-      when: pip_packages is defined
-
-    - name: install some pip3 packages
-      pip3: name={{ item }} state=present
-      with_items: "{{ pip3_packages }}"
-      when: pip3_packages is defined
 
     # install Jupyter.
     - name: upgrade the six
