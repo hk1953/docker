@@ -1,0 +1,7 @@
+cython
+numpy
+pillow
+seaborn
+matplotlib
+scipy
+pandas
