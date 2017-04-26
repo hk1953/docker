@@ -1,4 +1,7 @@
+version: '2'
+
 jupyter:
   build: .
+  image: mohitsharma44/ucsl-image:latest
   ports:
     - "8888:8888"
