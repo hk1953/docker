@@ -41,9 +41,9 @@
       - pillow
       - pandas
 
-    jupyter_notebook_config_py_url: "./jupyter_config.py"
-    ansible_cfg_url: "./ansible.cfg"
-    inventory_url: "./inventory"
+    jupyter_notebook_config_py_url: "https://raw.githubusercontent.com/hk1953/ucsl-image/master/image/jupyter_config.py"
+    ansible_cfg_url: "https://raw.githubusercontent.com/hk1953/ucsl-image/master/image/ansible.cfg"
+    inventory_url: "https://raw.githubusercontent.com/hk1953/ucsl-image/master/image/inventory"
 
   tasks:
     # Create a 2048-bit SSH key for root
