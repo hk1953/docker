@@ -12,10 +12,7 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     sudo \
     locales \
     git \
-    vim \
-    jed \
     emacs \
-    build-essential \
     python-dev \
     unzip \
     libsm6 \
@@ -82,27 +79,12 @@ RUN cd /tmp && \
     conda clean -tipsy
 
 # Install JupyterHub to get the jupyterhub-singleuser startup script
-RUN pip --no-cache-dir install 'jupyterhub==0.5'
+RUN pip --no-cache-dir install 'jupyterhub'
 
 # Install Python 3 packages
 # Remove pyqt and qt pulled in for matplotlib since we're only ever going to
 # use notebook-friendly backends in these images
 RUN conda install --quiet --yes \
-#    'pandas=0.18*' \
-#    'numexpr=2.5*' \
-#    'matplotlib=1.5*' \
-#    'scipy=0.17*' \
-#    'seaborn=0.7*' \
-#    'scikit-learn=0.17*' \
-#    'scikit-image=0.11*' \
-#    'sympy=1.0*' \
-#    'patsy=0.4*' \
-#    'statsmodels=0.6*' \
-#    'cloudpickle=0.1*' \
-#    'dill=0.2*' \
-#    'numba=0.23*' \
-#    'bokeh=0.11*' \
-#    'h5py=2.5*' && \
     'cython' \
     'numpy' \
     'pillow' \
@@ -120,23 +102,6 @@ RUN jupyter nbextension enable --py widgetsnbextension --sys-prefix
 # Remove pyqt and qt pulled in for matplotlib since we're only ever going to
 # use notebook-friendly backends in these images
 RUN conda create --quiet --yes -p $CONDA_DIR/envs/python2 python=2.7 \
-#    'ipython=4.2*' \
-#    'pandas=0.18*' \
-#    'numexpr=2.5*' \
-#    'matplotlib=1.5*' \
-#    'scipy=0.17*' \
-#    'seaborn=0.7*' \
-#    'scikit-learn=0.17*' \
-#    'scikit-image=0.11*' \
-#    'sympy=1.0*' \
-#    'patsy=0.4*' \
-#    'statsmodels=0.6*' \
-#    'cloudpickle=0.1*' \
-#    'dill=0.2*' \
-#    'numba=0.23*' \
-#    'bokeh=0.11*' \
-#    'h5py=2.5*' \
-#    'pyzmq' && \
     'cython' \
     'numpy' \
     'pillow' \
@@ -157,11 +122,11 @@ RUN mkdir -p $HOME/.ipython/profile_default/startup
 
 # Install Jupyter notebook as NB_USER
 RUN conda install --quiet --yes \
-    'notebook=4.2*' \
+    'notebook' \
     && conda clean -tipsy
 
 # Install JupyterHub to get the jupyterhub-singleuser startup script
-RUN pip --no-cache-dir install 'jupyterhub==0.5'
+RUN pip --no-cache-dir install 'jupyterhub'
 
 USER root
 
@@ -185,7 +150,7 @@ RUN chmod +x /usr/local/bin/start-*
 
 # Add any extra requirements. Done at end to avoid cache busting.
 ADD requirements.txt requirements.txt
-RUN pip install -r requirements.txt
-RUN pip3 install -r requirements.txt
+RUN mkdir /home/$NB_USER/work/ucsl17_notebooks
+RUN git clone https://github.com/Mohitsharma44/ucsl17 /home/$NB_USER/work/ucsl17_notebooks
 
 USER $NB_USER
