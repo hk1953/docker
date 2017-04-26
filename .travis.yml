@@ -1,6 +1,7 @@
-language: generic
-
 sudo: required
+
+language: ruby
+
 services:
     - docker
 
