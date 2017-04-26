@@ -73,14 +73,14 @@
         - virtualenv
 
     - name: Create the virtualenv
-      command: virtualenv /home --no-site-packages creates=/home/bin/activate
+      command: virtualenv -p python3 /home --no-site-packages creates=/home/bin/activate
 
     # install Jupyter.
     - name: upgrade the six
       pip: name=six state=latest
 
     - name: install jupyter notebook
-      pip: name=jupyter version=5.0.0 state=present
+      pip: name=jupyter version=1.0.0 state=present
 
     # Disable Jupyter token authentication (DO NOT RUN THIS IN PRODUCTION!)
     - name: create `/root/.jupyter` directory
