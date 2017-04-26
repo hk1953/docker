@@ -55,7 +55,7 @@
         - ansible_pkg_mgr == "apt"
 
     # Python package dependencies
-    - name: install apt packages
+    - name: install apt python packages
       apt: name={{ item }} state=present
       with_items: "{{ apt_python_packages }}"
       when:
@@ -71,6 +71,10 @@
         requirements: ./requirements.txt
         virtualenv: /home/venvs/myenv
         virtualenv_python: python3.4
+        virtualenv_site_packages: yes
+
+    - name: virtualenv activate
+      shell: source /home/venvs/myenv/bin/activate
 
     # install Jupyter.
     - name: upgrade the six
