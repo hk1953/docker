@@ -19,7 +19,7 @@ help:
 
 build/%: DARGS?=
 build/%: ## build the latest image for the ucsl stack
-	docker build $(DARGS) --rm --force-rm -t $(OWNER)/$(notdir $@):$(VERSION) ./$(notdir $@)
+	docker build $(DARGS) --rm --force-rm -t $(OWNER)/$(notdir $@):$(VERSION) ./image
 
 refresh/%: ## pull the latest image from Docker Hub for a stack
            # skip if error: a stack might not be on dockerhub yet
