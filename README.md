@@ -2,6 +2,7 @@
 [![](https://images.microbadger.com/badges/version/mohitsharma44/ucsl-image.svg)](https://microbadger.com/images/mohitsharma44/ucsl-image)
 [![Build Status](https://travis-ci.org/Mohitsharma44/ucsl-image.svg?branch=master)](https://travis-ci.org/Mohitsharma44/ucsl-image)
 [![](https://images.microbadger.com/badges/image/mohitsharma44/ucsl-image.svg)](https://microbadger.com/images/mohitsharma44/ucsl-image "Get your own image badge on microbadger.com")
+[![](https://img.shields.io/docker/build/mohitsharma44/ucsl-image.svg)](https://img.shields.io/docker/build/mohitsharma44/ucsl-image)
 
 ## Two ways to run the container
 #### Directly using docker:
