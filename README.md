@@ -9,13 +9,17 @@
 
 #### Cloning this repo:
 - git clone https://github.com/hk1953/ucsl-image
-- cd ucsl-image
-**To "build" the image from ground up:**
-  - make build
-**To "run" the image:**
-  - make run
+- cd `ucsl-image`
+
+**To `build` the image from ground up:**
+  - `make build`
+
+**To `run` the image:**
+  - `make run`
+
 **To "test" the working:**
-  - make test
-**To "pull" the most recent image:**
-  - make refresh
+  - `make test`
+
+**To `pull` the most recent image:**
+  - `make refresh`
   
