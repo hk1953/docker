@@ -23,4 +23,3 @@
 
 - To `pull` the most recent image:
   - `make refresh`
-  
