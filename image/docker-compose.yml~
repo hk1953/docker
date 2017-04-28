@@ -1,7 +1,0 @@
-jupyter:
-  build: .
-  ports:
-    - "8888:8888"
-  volumes:
-    - ./notebooks:/notebooks
-  entrypoint: sh -c 'jupyter notebook --ip=* --port=8888 --no-browser --notebook-dir=/'
