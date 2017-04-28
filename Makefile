@@ -31,9 +31,9 @@ refresh/%: ## pull the latest image from Docker Hub for a stack
 
 test/%: ## run the stack and check if the jupyter notebook is alive
 	@-docker rm -f $(IMG_NAME)
-	docker run -d --name $(IMG_NAME) -p $(PORT):8888 $(OWNER)/$(notdir $@)
-	echo "Checking for UCSL Server"
-	for i in $$(seq 0 9); do \
+	@docker run -d --name $(IMG_NAME) -p $(PORT):8888 $(OWNER)/$(notdir $@)
+	@echo "Checking for UCSL Server"
+	@for i in $$(seq 0 9); do \
 		sleep $$i; \
                 printf ". "; \
 		docker exec $(IMG_NAME) bash -c 'wget http://localhost:8888 -O- | grep -i jupyter' &> /dev/null; \
