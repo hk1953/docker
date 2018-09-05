@@ -9,7 +9,7 @@
 - `docker run -it --rm --name ucsl -p 8888:8888 mohitsharma44/ucsl-image`
 
 #### Cloning this repo:
-- `git clone https://github.com/hk1953/ucsl-image`
+- `git clone https://github.com/mohitsharma44/ucsl-image`
 - `cd ucsl-image`
 
 - To `build` the image from ground up:
@@ -23,4 +23,3 @@
 
 - To `pull` the most recent image:
   - `make refresh`
-  
