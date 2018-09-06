@@ -56,6 +56,8 @@ ENV LANGUAGE en_US.UTF-8
 
 # Create user with UID=1000 and in the 'users' group
 RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
+    adduser $NB_USER sudo && \
+    echo 'ALL ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
     mkdir -p $CONDA_DIR && \
     chown $NB_USER $CONDA_DIR
 
@@ -136,7 +138,7 @@ RUN $CONDA_DIR/envs/python2/bin/python -m ipykernel install
 
 # Configure container startup as root
 EXPOSE 8888
-WORKDIR /home/$NB_USER/
+WORKDIR /home/
 ENTRYPOINT ["tini", "--"]
 CMD ["start-notebook.sh"]
 
