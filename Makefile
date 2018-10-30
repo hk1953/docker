@@ -36,8 +36,9 @@ test/%: ## run the stack and check if the jupyter notebook is alive
 	@for i in $$(seq 0 10); do \
 		sleep $$i; \
                 printf ". "; \
-		docker exec $(IMG_NAME) bash -c 'wget --quiet http://localhost:8888 -O- | grep -i jupyter' &> /dev/null; \
-		if [ $$? -eq 0 ]; then \
+		            docker exec $(IMG_NAME) bash -c 'wget --quiet http://localhost:8888 -O- | grep -i jupyter' &> /dev/null; \
+		            if [ $$? -eq 0 ]; then \
+
                 echo; \
                 echo "Server is Up and Running"; \
                 exit 0; \
