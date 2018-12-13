@@ -3,7 +3,27 @@ sudo: required
 language: generic
 
 services:
-    - docker
+  - docker
 
 script:
-    - make test
+  - make test
+
+after_success:
+  - "curl -o /tmp/travis-automerge https://raw.githubusercontent.com/Mohitsharma44/travis-automerge/master/travis-automerge"
+  - "chmod +x /tmp/travis-automerge"
+  - "BRANCHES_TO_MERGE_REGEX='staging' BRANCH_TO_MERGE_INTO=master GITHUB_REPO=Mohitsharma44/ucsl-image /tmp/travis-automerge"
+
+before_deploy:
+  - export RELEASE_PKG_FILE=$(ls *.*)
+  - echo "deploying $RELEASE_PKG_FILE to GitHub releases"
+
+deploy:
+  provider: releases
+  file_glob: true
+  api_key:
+    secure: U9C/oeq/JQ1oabJFqEI8rz6ONy/p7a+R7ZVHnFP9KU+ivTEmWIk4DgGiIqrCuleQdVf9UGblwrCWxD5t0U17r8MQGe559r5pr+cih6RT7sK55hycnYbL28oxkrSChkQdGUGyqg+fjKzmtiGThbDsoN0Mc/t+4xb0Xf6bW+R+VHLFGs/Y+5NNDBaQRL6i+xO4m/UbHlYxUBfvq9Nq4AxDrtO6sQL8i4Ox4004Dz/JuK8Q9YNeMeJQL83LpdUqTobyNN0oMMhokEDJQjhlIxD2lmhcHTgyJwUYHhuH8tmJwrj5cK5dNvrkpAgNHn6JDs7sEF7m4XVmBKIe5RPZZvoEwm1dgZDL/BKKTWfLIi3BKJMPomQU7z4Ur47WZ4Zp3amCXmoe3eyxhXs2gz4DlbOD872MCzsAKfq3IT/96o/Rjm0oLEdZzMcxTMhHB7IVctB5qbkh4+wi5iszadsWqAuEdSVxpbW8tTC9ka3L0YUAfCTYB6zHc+9cDYnnGkUh/Gy94O+AFVidpFcf/DlT1rrc8fYYBSQgqnCphUEQkjvRrYDPmnLOBeJ8iWW41xcmqsHZNQsMeOthSc8KPMJdfRQhDWpzea/Yl03Qn8Zoskj6D3tC3DvTHBkJTIgscMfTg5Lhtri+8OS7y19Gtw+AchQCAcgmkUk7EygOY9BhnieHsF4=
+  file: "${RELEASE_PKG_FILE}"
+  skip_cleanup: true
+  on:
+    repo: Mohitsharma44/ucsl-image
+    tags: true

@@ -1,7 +1,16 @@
-version: '2'
+version: '2.3'
 
-jupyter:
-  build: .
-  image: mohitsharma44/ucsl-image:latest
-  ports:
-    - "8888:8888"
+services:
+  ucsl:
+    container_name: ucsl-container
+    build:
+      context: .
+      args:
+        NB_USER: ${NB_USER}
+    image: mohitsharma44/ucsl-image:latest
+    ports:
+      - "8888:8888"
+    volumes:
+      - type: bind
+        source: ./notebooks
+        target: /home/${NB_USER}/puinotebooks/

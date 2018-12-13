@@ -1,7 +1,8 @@
-FROM python:latest
+FROM python:3.6.6-slim-stretch
 
 MAINTAINER Mohit_Sharma <mohit.sharma@nyu.edu>
 
+ARG NB_USER=pui_user
 USER root
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -47,7 +48,6 @@ RUN wget --quiet https://github.com/krallin/tini/releases/download/v0.9.0/tini &
 ENV CONDA_DIR /opt/conda
 ENV PATH $CONDA_DIR/bin:$PATH
 ENV SHELL /bin/bash
-ENV NB_USER ucsl17_user
 ENV NB_UID 1000
 ENV HOME /home/$NB_USER
 ENV LC_ALL en_US.UTF-8
@@ -56,26 +56,28 @@ ENV LANGUAGE en_US.UTF-8
 
 # Create user with UID=1000 and in the 'users' group
 RUN useradd -m -s /bin/bash -N -u $NB_UID $NB_USER && \
+    adduser $NB_USER sudo && \
+    echo 'ALL ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
     mkdir -p $CONDA_DIR && \
     chown $NB_USER $CONDA_DIR
 
 USER $NB_USER
 
 # Setup home directory
-RUN mkdir /home/$NB_USER/work && \
-    mkdir /home/$NB_USER/.jupyter && \
+RUN mkdir /home/$NB_USER/.jupyter && \
     mkdir -p -m 700 /home/$NB_USER/.local/share/jupyter && \
     echo "cacert=/etc/ssl/certs/ca-certificates.crt" > /home/$NB_USER/.curlrc
 
 # Install conda as NB_USER
 RUN cd /tmp && \
     mkdir -p $CONDA_DIR && \
-    wget --quiet https://repo.continuum.io/miniconda/Miniconda3-4.3.11-Linux-x86_64.sh && \
-    echo "b9fe70ce7b6fa8df05abfb56995959b897d0365299f5046063bc236843474fb8 *Miniconda3-4.3.11-Linux-x86_64.sh" | sha256sum -c - && \
-    /bin/bash Miniconda3-4.3.11-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
-    rm Miniconda3-4.3.11-Linux-x86_64.sh && \
-    $CONDA_DIR/bin/conda install --quiet --yes conda==4.3.11 && \
+    wget --quiet https://repo.continuum.io/miniconda/Miniconda3-4.5.11-Linux-x86_64.sh && \
+    echo "ea4594241e13a2671c5b158b3b813f0794fe58d514795fbf72a1aad24db918cf  Miniconda3-4.5.11-Linux-x86_64.sh" | sha256sum -c - && \
+    /bin/bash Miniconda3-4.5.11-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
+    rm Miniconda3-4.5.11-Linux-x86_64.sh && \
+    $CONDA_DIR/bin/conda install --quiet --yes conda==4.5.11 && \
     $CONDA_DIR/bin/conda config --system --add channels conda-forge && \
+    $CONDA_DIR/bin/conda update conda && \
     conda clean -tipsy
 
 # Install JupyterHub to get the jupyterhub-singleuser startup script
@@ -126,7 +128,7 @@ RUN conda install --quiet --yes \
     && conda clean -tipsy
 
 # Install JupyterHub to get the jupyterhub-singleuser startup script
-RUN pip --no-cache-dir install 'jupyterhub'
+#RUN pip --no-cache-dir install 'jupyterhub'
 
 USER root
 
@@ -136,7 +138,7 @@ RUN $CONDA_DIR/envs/python2/bin/python -m ipykernel install
 
 # Configure container startup as root
 EXPOSE 8888
-WORKDIR /home/$NB_USER/work
+WORKDIR /home/
 ENTRYPOINT ["tini", "--"]
 CMD ["start-notebook.sh"]
 
@@ -149,8 +151,8 @@ RUN chown -R $NB_USER:users /home/$NB_USER/.jupyter
 RUN chmod +x /usr/local/bin/start-*
 
 # Add any extra requirements. Done at end to avoid cache busting.
-ADD requirements.txt requirements.txt
-RUN mkdir /home/$NB_USER/work/ucsl17_notebooks
-RUN git clone https://github.com/Mohitsharma44/ucsl17 /home/$NB_USER/work/ucsl17_notebooks
+#ADD requirements.txt requirements.txt
+#RUN mkdir /home/$NB_USER/work/ucsl17_notebooks
+#RUN git clone https://github.com/Mohitsharma44/ucsl17 /home/$NB_USER/work/ucsl17_notebooks
 
 USER $NB_USER

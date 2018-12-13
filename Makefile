@@ -20,7 +20,7 @@ help:
 
 build/%: DARGS?=
 build/%: ## build the latest image for the ucsl stack
-	docker build $(DARGS) --rm --force-rm -t $(OWNER)/$(notdir $@):$(VERSION) ./image
+	docker build $(DARGS) --rm --force-rm --build-arg NB_USER=ucsl_user -t $(OWNER)/$(notdir $@):$(VERSION) ./image
 
 run/%: ## run the docker image pulled from dockerhub
 	docker run -d --name $(IMG_NAME) -p $(PORT):8888 $(OWNER)/$(notdir $@)
@@ -33,11 +33,11 @@ test/%: ## run the stack and check if the jupyter notebook is alive
 	@-docker rm -f $(IMG_NAME)
 	@docker run -d --name $(IMG_NAME) -p $(PORT):8888 $(OWNER)/$(notdir $@)
 	@echo "Checking for UCSL Server"
-	@for i in $$(seq 0 9); do \
+	@for i in $$(seq 0 10); do \
 		sleep $$i; \
                 printf ". "; \
-		docker exec $(IMG_NAME) bash -c 'wget http://localhost:8888 -O- | grep -i jupyter' &> /dev/null; \
-		if [ $$? = 0 ]; then \
+		docker exec $(IMG_NAME) bash -c 'wget --quiet http://localhost:8888 -O- | grep -i jupyter' &> /dev/null; \
+		if [ $$? -eq 0 ]; then \
                 echo; \
                 echo "Server is Up and Running"; \
                 exit 0; \
