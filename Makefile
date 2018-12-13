@@ -20,7 +20,7 @@ help:
 
 build/%: DARGS?=
 build/%: ## build the latest image for the ucsl stack
-	docker build $(DARGS) --rm --force-rm -t $(OWNER)/$(notdir $@):$(VERSION) ./image
+	docker build $(DARGS) --rm --force-rm --build-arg NB_USER=ucsl_user -t $(OWNER)/$(notdir $@):$(VERSION) ./image
 
 run/%: ## run the docker image pulled from dockerhub
 	docker run -d --name $(IMG_NAME) -p $(PORT):8888 $(OWNER)/$(notdir $@)
